@@ -1,5 +1,5 @@
 <template>
 	<div>
-		ok
+		Vue.js is here
 	</div>
 </template>
