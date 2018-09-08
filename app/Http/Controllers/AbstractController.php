@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: DELL M4800
- * Date: 9/8/2018
- * Time: 1:28 AM
- */
-
 namespace App\Http\Controllers;
-
 
 abstract class AbstractController extends Controller
 {

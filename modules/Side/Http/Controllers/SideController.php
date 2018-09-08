@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Cms\Http\Controllers;
+namespace Modules\Side\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class CmsController extends BackendController
+class SideController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class CmsController extends BackendController
      */
     public function index()
     {
-        return view('cms::pages.some');
+        return view('side::index');
     }
 
     /**
@@ -23,7 +23,7 @@ class CmsController extends BackendController
      */
     public function create()
     {
-        return view('cms::create');
+        return view('side::create');
     }
 
     /**
@@ -41,7 +41,7 @@ class CmsController extends BackendController
      */
     public function show()
     {
-        return view('cms::show');
+        return view('side::show');
     }
 
     /**
@@ -50,7 +50,7 @@ class CmsController extends BackendController
      */
     public function edit()
     {
-        return view('cms::edit');
+        return view('side::edit');
     }
 
     /**
