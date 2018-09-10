@@ -2,71 +2,144 @@
 
 namespace Modules\Api\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Http\Response as Res;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
-class ApiController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+abstract class ApiController extends Controller {
+
+    private $generalErrors = array(
+        0     => 'Lỗi không xác định', 
+        101   => 'Phải sử dụng phương thức POST', 
+        102   => 'Phải sử dụng phương thức GET', 
+        103   => 'Không tồn tại tham số: "{PARAMETER}"',
+        104   => 'Tham số: "{PARAMETER}", rỗng',
+        105   => 'Sai chữ ký', 
+        106   => 'Data Not Found',
+        107   => 'Parameter not null',
+        108   => 'Authentication failed',
+        404   => 'Có lỗi xảy ra'
+    ); // authenticate with taylor jwt
+    
+    protected $secretKey = 'Ja20w1eFR0jM3OAqOBrbpaxUunSN7ESE';
+
+    protected $statusCode = Res::HTTP_OK;
+
+    public function __construct()
     {
-        return view('api::index');
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function getStatusCode()
     {
-        return view('api::create');
+        return $this->statusCode;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function setStatusCode($statusCode)
     {
+        $this->statusCode = $statusCode;
+        return $this;
+    }
+    
+    public function checkKeySign(Request $request){
+        $params = $request->all();
+        if($params == null){
+            return $this->respondWithError(107);
+        }
+        if(!$request->sign){
+           return $this->respondWithError(105);
+        }
+        $i = 1;
+        $string_sign = '';
+        if($params != null && !empty($params)){
+            unset($params['/'.$request->path()]);
+            unset($params['_']);
+            ksort($params);
+            foreach ( $params as $key=>$value ) {
+                if($key != 'sign'){
+                    if($i == 1){
+                        $string_sign .= $value;
+                    }else{
+                        $string_sign .= '|' .$value;
+                    }
+                    $i++;
+                }
+
+            }
+        }
+        
+        $sign = sha1($string_sign.'|'.$this->secretKey);
+        if($sign != $request->sign){
+            return $this->respondWithError(105);
+        }
+    }
+    
+    public function respondData($message,$errorCode, $data=null){
+        $this->setStatusCode(Res::HTTP_OK);
+        return $this->respond([
+            'error_code' => $errorCode,
+            'message' => $message,
+            'data' => $data
+        ]);
+
+    }
+    
+    public function respondWithError($error = null, $parameter = null, $value = null){
+        if(is_array($parameter)){
+            $parameter = explode(', ',$parameter);
+        }
+        if(is_array($value)){
+            $value = explode(', ',$value);
+        }
+        $error = $this->getError($error, $parameter, $value, null);
+        $this->setStatusCode(Res::HTTP_CREATED);
+        return $this->respond([
+            'status' => 'error',
+            'error_code' => $error['id'],
+            'message' => $error['message'],
+        ]);
     }
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('api::show');
+    public function respond($data, $headers = []){
+        return \Response::json($data, $this->getStatusCode(), $headers);
     }
+    
+    public function getError($error = null, $parameter = null, $value = null){
 
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('api::edit');
+        if($error == null){
+            $error = 0;
+        }
+        $errorString = $this->generalErrors[$error]; 
+       
+        if($parameter !== null){
+            $errorString = str_replace('{PARAMETER}', $parameter, $errorString);
+        }
+        
+        if($value !== null){
+            $errorString = str_replace('{VALUE}', $value, $errorString);
+        }
+        return array('id'=>$error,'message'=>$errorString);
     }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
+    
+    public function getIPAddress() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+           $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
     }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
-    }
+    
 }
+

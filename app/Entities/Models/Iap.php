@@ -5,11 +5,11 @@ namespace App\Entities\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Iap extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'maan_users';
+    protected $table = 'maan_iaps';
 
     public $timestamps = true;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'role_id', 'google_id', 'facebook_id', 'email', 'fullname', 'avatar', 'gender', 'phone', 'address', 'last_activity', 'expire_at'
+        'type', 'product_id',
     ];
 
     /**
@@ -29,15 +29,5 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'access_token', 'refresh_token',
     ];
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 }

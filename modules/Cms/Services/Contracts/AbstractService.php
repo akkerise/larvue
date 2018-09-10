@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Modules\Cms\Services\Contracts;
