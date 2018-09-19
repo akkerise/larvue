@@ -3,9 +3,9 @@
 namespace App\Entities\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Auth;
 
-class User extends Authenticatable
+class User extends Auth
 {
     use Notifiable;
 
@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'role_id', 'google_id', 'facebook_id', 'email', 'fullname', 'avatar', 'gender', 'phone', 'address', 'last_activity', 'expire_at'
+        'appota_id', 'role_id', 'google_id', 'facebook_id', 'email', 'password', 'fullname', 'avatar', 'gender', 'phone', 'address', 'last_activity', 'expired_at',
     ];
 
     /**
@@ -29,13 +29,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'access_token', 'refresh_token',
+        'access_token', 'refresh_token', 'remember_token'
     ];
 
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
+
     public function getJWTCustomClaims()
     {
         return [];

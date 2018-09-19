@@ -2,13 +2,15 @@
 
 namespace App\Common\Gamota;
 
-class RequestApi {
+class RequestApi
+{
 
     private static $_secretKey = 'Ja20w1eFR0jM3OAqOBrbpaxUunSN7ESE';
 
-    public static function create($url, $params = array(), $method = "POST") {
+    public static function create($url, $params = array(), $method = "POST")
+    {
         $fields = '';
-        if(is_array($params) && $params){
+        if (is_array($params) && $params) {
             foreach ($params as $key => $value) {
                 if ($fields != '')
                     $fields .= '&';
@@ -33,7 +35,7 @@ class RequestApi {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); //Time out 5s
         curl_setopt($ch, CURLOPT_USERPWD, "h5gamota:developer");
         $result = curl_exec($ch);
-        
+
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if (curl_error($ch))
@@ -45,10 +47,11 @@ class RequestApi {
         curl_close($ch);
         return $result;
     }
-    
-    public static function checkHttpStatus($url, $params = array(), $method = "POST") {
+
+    public static function checkHttpStatus($url, $params = array(), $method = "POST")
+    {
         $fields = '';
-        if(is_array($params) && $params){
+        if (is_array($params) && $params) {
             foreach ($params as $key => $value) {
                 if ($fields != '')
                     $fields .= '&';
@@ -73,26 +76,27 @@ class RequestApi {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); //Time out 5s
         curl_setopt($ch, CURLOPT_USERPWD, "h5gamota:developer");
         $result = curl_exec($ch);
-        
+
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         return $status;
     }
 
-    public static function createSignature($api_params = array()) {
+    public static function createSignature($api_params = array())
+    {
         $i = 1;
-	$signValue= '';
-	if($api_params != null && !empty($api_params)){
+        $signValue = '';
+        if ($api_params != null && !empty($api_params)) {
             ksort($api_params);
-            foreach($api_params as $value){
-                if($i==1){
-                        $signValue = $value;
-                }else{
-                        $signValue .= '|' . $value;
+            foreach ($api_params as $value) {
+                if ($i == 1) {
+                    $signValue = $value;
+                } else {
+                    $signValue .= '|' . $value;
                 }
                 $i++;
             }
-	}
-	$sign = sha1($signValue .'|Ja20w1eFR0jM3OAqOBrbpaxUunSN7ESE');
+        }
+        $sign = sha1($signValue . '|' . self::$_secretKey);
         return $sign;
     }
 

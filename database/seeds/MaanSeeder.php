@@ -31,6 +31,7 @@ class MaanSeeder extends Seeder
             $roleIds = Role::all()->pluck('id')->toArray();
 
             DB::table('maan_users')->insert([
+                'appota_id' => random_int(100000,999999),
                 'role_id' => $faker->randomElement($roleIds),
                 'google_id' => \Hash::make($faker->username),
                 'facebook_id' => \Hash::make($faker->username),
@@ -44,7 +45,8 @@ class MaanSeeder extends Seeder
                 'last_activity' => $faker->slug,
                 'access_token' => $faker->sha256,
                 'refresh_token' => $faker->sha256,
-                'expire_at' => $faker->unixTime($max = 'now'),
+                'remember_token' => $faker->sha256,
+                'expired_at' => $faker->unixTime($max = 'now'),
                 'created_at' => $faker->unixTime($max = 'now'),
                 'updated_at' => $faker->unixTime($max = 'now'),
             ]);
@@ -106,6 +108,7 @@ class MaanSeeder extends Seeder
         }
 
         DB::table('maan_users')->insert([
+            'appota_id' => random_int(100000,999999),
             'role_id' => 1,
             'google_id' => \Hash::make('akkerise'),
             'facebook_id' => \Hash::make('akkerise'),
@@ -118,6 +121,30 @@ class MaanSeeder extends Seeder
             'gender' => rand(1, 4),
             'last_activity' => $faker->slug,
             'access_token' => $faker->sha256,
+            'refresh_token' => $faker->sha256,
+            'remember_token' => $faker->sha256,
+            'expired_at' => $faker->unixTime($max = 'now'),
+            'created_at' => $faker->unixTime($max = 'now'),
+            'updated_at' => $faker->unixTime($max = 'now'),
+        ]);
+
+        DB::table('maan_users')->insert([
+            'appota_id' => random_int(100000,999999),
+            'role_id' => 1,
+            'google_id' => \Hash::make('thanhna'),
+            'facebook_id' => \Hash::make('thanhna'),
+            'password' => \Illuminate\Support\Facades\Hash::make('thanhna'),
+            'email' => 'thanhna@appota.com',
+            'fullname' => 'thanhna',
+            'phone' => $faker->phoneNumber,
+            'address' => $faker->address,
+            'avatar' => $faker->imageUrl($width = 1000, $height = 1000),
+            'gender' => rand(1, 4),
+            'last_activity' => $faker->slug,
+            'access_token' => $faker->sha256,
+            'refresh_token' => $faker->sha256,
+            'remember_token' => $faker->sha256,
+            'expired_at' => $faker->unixTime($max = 'now'),
             'created_at' => $faker->unixTime($max = 'now'),
             'updated_at' => $faker->unixTime($max = 'now'),
         ]);
