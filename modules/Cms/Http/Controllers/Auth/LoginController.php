@@ -20,16 +20,18 @@ use App\Common\Libs\Google;
 use Illuminate\Http\Request;
 
 
-class LoginController extends Controller
+class LoginController extends \Modules\Cms\Http\Controllers\AbstractController
 {
 //    use ThrottlesLogins;
 
     protected $userService;
-
-    public function __construct(UserService $userService)
+    
+    public function __construct(UserService $userService, \Modules\Cms\Repositories\Contracts\UserRepository $user)
     {
         $this->middleware(Regular::PREFIX_GUEST, ['except' => 'logout']);
         $this->userService = $userService;
+//        parent::__construct($user);
+//        dd($this->repository);
     }
 
     public function index()

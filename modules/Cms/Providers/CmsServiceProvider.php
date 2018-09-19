@@ -35,7 +35,15 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            \Modules\Cms\Repositories\Contracts\UserRepository::class,
+            \Modules\Cms\Repositories\UserRepositoryEloquent::class
+        );
+        
+        $this->app->bind(
+            \Modules\Cms\Services\Contracts\UserService::class,
+            \Modules\Cms\Services\UserServiceJob::class
+        );
     }
 
     /**
