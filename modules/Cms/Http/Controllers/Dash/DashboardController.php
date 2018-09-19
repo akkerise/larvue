@@ -8,6 +8,7 @@
 
 namespace Modules\Cms\Http\Controllers\Dash;
 
+use App\Common\Untils\Regular;
 use Modules\Cms\Http\Controllers\AbstractController;
 
 class DashboardController extends AbstractController
@@ -15,7 +16,8 @@ class DashboardController extends AbstractController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('cms');
+//        dd(auth()->guard(Regular::PREFIX_CMS)->user());
+        $this->middleware(Regular::PREFIX_CMS);
     }
 
     public function index()

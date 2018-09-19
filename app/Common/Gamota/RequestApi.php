@@ -35,9 +35,7 @@ class RequestApi
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5); //Time out 5s
         curl_setopt($ch, CURLOPT_USERPWD, "h5gamota:developer");
         $result = curl_exec($ch);
-
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         if (curl_error($ch))
             return false;
         if ($status != 200) {

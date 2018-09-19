@@ -9,7 +9,7 @@
 namespace Modules\Cms\Http\Controllers\Auth;
 
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Modules\Cms\Http\Middleware\Auth\LoginRequest;
+use Modules\Cms\Http\Requests\Auth\LoginRequest;
 use App\Entities\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Common\Untils\Permission;
@@ -22,13 +22,13 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    use ThrottlesLogins;
+//    use ThrottlesLogins;
 
     protected $userService;
 
     public function __construct(UserService $userService)
     {
-//        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware(Regular::PREFIX_GUEST, ['except' => 'logout']);
         $this->userService = $userService;
     }
 
@@ -49,8 +49,7 @@ class LoginController extends Controller
         $data = json_decode($res, true);
         if ($data['error_code'] == 0) {
             $user = $this->userService->get()->where('appota_id', $data['data']['info']['user_id'])->first();
-            \Auth::guard(Regular::PREFIX_CMS)->loginUsingId($user->id, true);
-            echo "<pre>"; var_dump(auth()->guard(Regular::PREFIX_CMS)->user()); die();
+            auth()->guard(Regular::PREFIX_CMS)->loginUsingId($user->id, true);
             return redirect()->intended('cms/dash');
         } else {
             self::delSession();
@@ -134,8 +133,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->guard(Regular::PREFIX_CMS)->logout();
-        session()->flush();
+        self::delSession();
         return redirect('cms/login');
     }
 

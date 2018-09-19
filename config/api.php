@@ -4,7 +4,8 @@ return [
     'name' => 'Api',
 
     // API
-    'base_url_dev' => 'http://larvue.akk.com/',
+//    'base_url_dev' => 'http://larvue.akk.com/',
+    'base_url_dev' => 'http://larvue.akk/',
     'end_point_login' => '/api/v1/login',
     'uri_redirect' => "http://127.0.0.1:8000",
     'end_point_search' => '/api/v1/search',

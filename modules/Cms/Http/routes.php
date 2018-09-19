@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['web'], 'prefix' => 'cms', 'namespace' => 'Modules\Cms\Http\Controllers'], function () {
+Route::group(['middleware' => ['web', 'guest'], 'prefix' => 'cms', 'namespace' => 'Modules\Cms\Http\Controllers'], function () {
     Route::get('/', 'CmsController@index');
     Route::get('/login', 'Auth\LoginController@index')->name('cms.g.login');
     Route::post('/login', 'Auth\LoginController@login')->name('cms.p.login');
@@ -9,6 +9,6 @@ Route::group(['middleware' => ['web'], 'prefix' => 'cms', 'namespace' => 'Module
 });
 
 Route::group(['middleware' => ['web', 'cms'], 'prefix' => 'cms', 'namespace' => 'Modules\Cms\Http\Controllers'], function () {
-    Route::get('/logout', 'Auth\LogoutController@logout')->name('cms.g.logout');
+    Route::get('/logout', 'Auth\LogoutController@logout')->name('cms.logout');
     Route::get('/dash', 'Dash\DashboardController@index')->name('cms.dash');
 });

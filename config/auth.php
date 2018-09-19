@@ -40,15 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
         ],
-//        'cms' => [
-//            'driver' => 'session',
-//            'provider' => 'cms',
-//        ],
+        'cms' => [
+            'driver' => 'session',
+            'provider' => 'cms',
+        ],
     ],
 
     /*
@@ -79,10 +78,10 @@ return [
         //     'table' => 'users',
         // ],
 
-//        'cms' => [
-//            'driver' => 'eloquent',
-//            'model' => App\Entities\Models\User::class,
-//        ],
+        'cms' => [
+            'driver' => 'eloquent',
+            'model' => App\Entities\Models\User::class,
+        ],
     ],
 
     /*

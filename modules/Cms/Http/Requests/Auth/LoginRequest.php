@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DELL M4800
- * Date: 9/17/2018
- * Time: 1:55 PM
- */
-
-namespace Modules\Cms\Http\Middleware\Auth;
+namespace Modules\Cms\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
