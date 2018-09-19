@@ -20,7 +20,7 @@ use App\Common\Libs\Google;
 use Illuminate\Http\Request;
 
 
-class LoginController extends \Modules\Cms\Http\Controllers\AbstractController
+class LoginController extends Controller
 {
 //    use ThrottlesLogins;
 
