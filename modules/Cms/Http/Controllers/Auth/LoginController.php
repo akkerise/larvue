@@ -8,8 +8,8 @@
 
 namespace Modules\Cms\Http\Controllers\Auth;
 
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Modules\Cms\Http\Requests\Auth\LoginRequest;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use App\Entities\Services\UserService;
 use App\Http\Controllers\Controller;
 use App\Common\Untils\Permission;
