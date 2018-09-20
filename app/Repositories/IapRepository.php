@@ -8,17 +8,14 @@
 
 namespace App\Repositories;
 
-use App\Common\Repositories\Traits\EloquentRepository;
 use App\Entities\Models\Iap;
 
-class IapRepository
+class IapRepository extends AbstractRepository
 {
-    use EloquentRepository;
-
     protected $_model;
 
     public function __construct(Iap $iap)
     {
-        $this->_model = $iap;
+        parent::__construct($iap);
     }
 }

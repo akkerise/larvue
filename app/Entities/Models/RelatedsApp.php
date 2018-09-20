@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RelatedsApp extends Model
 {
-    protected $table = 'maan_roles';
+    protected $table = 'maan_relateds_app';
 
     public $timestamps = true;
 

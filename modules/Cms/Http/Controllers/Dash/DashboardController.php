@@ -16,7 +16,6 @@ class DashboardController extends AbstractController
     public function __construct()
     {
         parent::__construct();
-//        dd(auth()->guard(Regular::PREFIX_CMS)->user());
         $this->middleware(Regular::PREFIX_CMS);
     }
 

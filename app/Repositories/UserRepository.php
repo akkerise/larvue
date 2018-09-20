@@ -5,15 +5,13 @@ namespace App\Repositories;
 use App\Common\Repositories\Traits\EloquentRepository;
 use App\Entities\Models\User;
 
-class UserRepository
+class UserRepository extends AbstractRepository
 {
-    use EloquentRepository;
-
     protected $_model;
 
     public function __construct(User $user)
     {
-        $this->_model = $user;
+        parent::__construct($user);
     }
 
     public function findWhere(string $attribute, $value)

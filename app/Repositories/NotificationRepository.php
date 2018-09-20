@@ -1,17 +1,15 @@
 <?php
+
 namespace App\Repositories;
 
-use App\Common\Repositories\Traits\EloquentRepository;
 use App\Entities\Models\Notification;
 
-class NotificationRepository
+class NotificationRepository extends AbstractRepository
 {
-    use EloquentRepository;
-
     protected $_model;
 
     public function __construct(Notification $notification)
     {
-        $this->_model = $notification;
+        parent::__construct($notification);
     }
 }

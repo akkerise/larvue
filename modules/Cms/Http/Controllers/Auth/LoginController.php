@@ -8,10 +8,12 @@
 
 namespace Modules\Cms\Http\Controllers\Auth;
 
+use Modules\Cms\Http\Controllers\AbstractController;
 use Modules\Cms\Http\Requests\Auth\LoginRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use App\Entities\Services\UserService;
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
 use App\Common\Untils\Permission;
 use App\Common\Gamota\RequestApi;
 use App\Common\Untils\Regular;
@@ -19,19 +21,17 @@ use App\Entities\Models\User;
 use App\Common\Libs\Google;
 use Illuminate\Http\Request;
 
-
-class LoginController extends Controller
+class LoginController extends AbstractController
 {
-//    use ThrottlesLogins;
+    use ThrottlesLogins;
 
     protected $userService;
-    
-    public function __construct(UserService $userService, \Modules\Cms\Repositories\Contracts\UserRepository $user)
+
+    public function __construct(UserRepository $userService)
     {
+        parent::__construct();
         $this->middleware(Regular::PREFIX_GUEST, ['except' => 'logout']);
         $this->userService = $userService;
-//        parent::__construct($user);
-//        dd($this->repository);
     }
 
     public function index()

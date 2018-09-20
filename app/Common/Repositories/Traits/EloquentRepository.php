@@ -18,6 +18,24 @@ trait EloquentRepository
     protected $_model;
 
     /**
+     * @return Model|Builder
+     */
+    protected function getModel()
+    {
+        return $this->_model;
+    }
+
+    protected function on($connection = null)
+    {
+        return $this->_model->on($connection);
+    }
+
+    public function newQuery()
+    {
+        return clone $this->_model;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function get()
@@ -28,14 +46,22 @@ trait EloquentRepository
     }
 
     /**
-     * IDを指定して一件取得
-     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function all()
+    {
+        $result = $this->getModel()->get();
+        logger()->debug('#', ['result' => $result->count()]);
+        return $result;
+    }
+
+    /**
      * @param int $id
      * @return null|Model
      */
-    public function find(int $id)
+    public function find(int $id, $columns = ['*'])
     {
-        $result = $this->getModel()->find($id);
+        $result = $this->getModel()->find($id, $columns);
         logger()->debug('#', ['result' => (bool)$result, 'id' => $id]);
         return $result;
     }
@@ -45,9 +71,9 @@ trait EloquentRepository
      * @return Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findOrFail(int $id)
+    public function findOrFail(int $id, $columns = ['*'])
     {
-        $result = $this->getModel()->findOrFail($id);
+        $result = $this->getModel()->findOrFail($id, $columns);
         logger()->debug('#', ['result' => (bool)$result, 'id' => $id]);
         return $result;
     }
@@ -58,6 +84,22 @@ trait EloquentRepository
      * @throws Exception
      */
     public function store(array $input)
+    {
+        $model = $this->getModel()->fill($input);
+        if (!$model->save()) {
+            throw new Exception('create model fails.');
+        }
+        $result = $model;
+        logger()->debug('#', ['result' => (bool)$result]);
+        return $result;
+    }
+
+    /**
+     * @param array $input
+     * @return Model
+     * @throws Exception
+     */
+    public function create(array $input)
     {
         $model = $this->getModel()->fill($input);
         if (!$model->save()) {
@@ -155,12 +197,23 @@ trait EloquentRepository
         return $this->getModel()->newQuery();
     }
 
-    /**
-     * @return Model|Builder
-     */
-    protected function getModel()
+    public function destroy($ids = [])
     {
-        return $this->_model;
+        return $this->_model->destroy($ids);
     }
 
+    public function take($limit, $columns = ['*'])
+    {
+        return $this->_model->orderBy('id', 'DESC')->take($limit)->get($columns);
+    }
+
+    public function paginate($limit = null, $columns = ['*'])
+    {
+        return $this->_model->orderBy('id', 'DESC')->paginate($limit, $columns);
+    }
+
+    public function datatables($columns = ['*'], $with = [])
+    {
+        return $this->_model->with($with)->orderBy('id', 'desc')->get($columns);
+    }
 }

@@ -2,16 +2,15 @@
 
 namespace Modules\Api\Http\Controllers\Auth;
 
+use Modules\Api\Http\Controllers\ApiController;
 use App\Common\Untils\AppotaAPI;
 use App\Entities\Services\UserService;
 use Illuminate\Http\Request;
-use Modules\Api\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\DB;
 use App\Common\Gamota\RequestApi;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTFactory;
-use App\Entities\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Hash;
 
 class LoginController extends ApiController
@@ -22,7 +21,6 @@ class LoginController extends ApiController
     public function __construct(UserService $userService)
     {
         parent::__construct();
-        $this->_modelUser = new User();
         $this->userService = $userService;
     }
 

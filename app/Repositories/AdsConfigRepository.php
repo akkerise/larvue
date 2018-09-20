@@ -8,17 +8,14 @@
 
 namespace App\Repositories;
 
-use App\Common\Repositories\Traits\EloquentRepository;
 use App\Entities\Models\AdsConfig;
 
-class AdsConfigRepository
+class AdsConfigRepository extends AbstractRepository
 {
-    use EloquentRepository;
-
     protected $_model;
 
     public function __construct(AdsConfig $adsConfig)
     {
-        $this->_model = $adsConfig;
+        parent::__construct($adsConfig);
     }
 }

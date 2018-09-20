@@ -2,9 +2,8 @@
 
 namespace Modules\Cms\Repositories;
 
-//use App\Eloquent\User;
-use App\Entities\Models\User;
 use Modules\Cms\Repositories\Contracts\UserRepository;
+use App\Entities\Models\User;
 
 class UserRepositoryEloquent extends AbstractRepositoryEloquent implements UserRepository
 {

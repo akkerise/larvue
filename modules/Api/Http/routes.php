@@ -11,4 +11,5 @@ Route::group(['middleware' => ['web'], 'prefix' => 'api/v1', 'namespace' => 'Mod
     // Route::get('/', 'ApiController@index');
     Route::any('/logout', 'Auth\LogoutController@logout');
     Route::any('/info', 'User\UserController@info');
+    Route::any('/app', 'App\AppController@app');
 });

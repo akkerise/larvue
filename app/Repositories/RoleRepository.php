@@ -8,17 +8,14 @@
 
 namespace App\Repositories;
 
-use App\Common\Repositories\Traits\EloquentRepository;
 use App\Entities\Models\Role;
 
-class RoleRepository
+class RoleRepository extends AbstractRepository
 {
-    use EloquentRepository;
-
     protected $_model;
 
     public function __construct(Role $role)
     {
-        $this->_model = $role;
+        parent::__construct($role);
     }
 }

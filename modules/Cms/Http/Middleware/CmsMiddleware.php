@@ -1,17 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DELL M4800
- * Date: 9/19/2018
- * Time: 10:50 PM
- */
-
 namespace Modules\Cms\Http\Middleware;
 
 use App\Common\Untils\Permission;
 use App\Common\Untils\Regular;
 use Illuminate\Http\Request;
-
 use Closure;
 
 class CmsMiddleware
