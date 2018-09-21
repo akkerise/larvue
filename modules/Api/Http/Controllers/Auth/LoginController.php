@@ -78,7 +78,7 @@ class LoginController extends ApiController
             $avatar = $request->avatar;
         }
 
-        $end_point = "https://api.gamota.com/game/login_facebook?api_key=K-A179883-U00000-BXQJVG-23753BBFDC1A61E2&lang=vi";
+        $end_point = AppotaAPI::facebook();
         $api_params = array(
             'facebook_access_token' => $request->facebook_access_token
         );
@@ -214,4 +214,5 @@ class LoginController extends ApiController
             return $this->userService->get()->where('appota_id', $appotaId)->first();
         }
     }
+
 }

@@ -20,12 +20,12 @@ trait EloquentRepository
     /**
      * @return Model|Builder
      */
-    protected function getModel()
+    public function getModel()
     {
         return $this->_model;
     }
 
-    protected function on($connection = null)
+    public function on($connection = null)
     {
         return $this->_model->on($connection);
     }

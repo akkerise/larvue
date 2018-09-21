@@ -38,7 +38,7 @@
 
                             <div class="button-list">
                                 <a href="{{ route('cms.auth.google') }}" type="button" class="btn btn-default btn-block m-b-10"><i class="fa fa-share-square"></i> Google</a>
-                                <a href="{{ route('cms.auth.google') }}" type="button" class="btn btn-default btn-block m-b-10"><i class="fa fa-share-square"></i> Facebook</a>
+                                <a href="{{ url('cms/auth/facebook') }}" type="button" class="btn btn-default btn-block m-b-10"><i class="fa fa-share-square"></i> Facebook</a>
                             </div>
 
 

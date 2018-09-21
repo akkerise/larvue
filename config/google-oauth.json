@@ -11,7 +11,8 @@
       "http://h5.akk.com/cms/auth/google/callback",
       "https://gamezone.vn/cms/auth/google/callback",
       "https://gamezone.vn/cms/auth/google/callback",
-      "https://larvue.akk.com/cms/auth/google/callback"
+      "https://larvue.akk.com/cms/auth/google/callback",
+      "https://larvue.com/cms/auth/google/callback"
     ]
   }
 }

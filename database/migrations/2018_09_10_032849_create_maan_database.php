@@ -22,7 +22,7 @@ class CreateMaanDatabase extends Migration
 
         Schema::create('maan_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('appota_id');
+            $table->string('appota_id');
             $table->integer('role_id')->unsigned()->index();
             $table->foreign('role_id')->references('id')->on('maan_roles')->onDelete('cascade');
             $table->string('google_id')->nullable();
@@ -31,8 +31,8 @@ class CreateMaanDatabase extends Migration
             $table->string('password');
             $table->string('fullname');
             $table->string('avatar');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->tinyInteger('gender');
             $table->string('last_activity')->nullable();
             $table->string('access_token')->nullable();

@@ -1,18 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DELL M4800
- * Date: 9/12/2018
- * Time: 4:43 PM
- */
-
 namespace Modules\Cms\Http\Controllers\Auth;
 
 use Modules\Cms\Http\Controllers\AbstractController;
 use Modules\Cms\Http\Requests\Auth\LoginRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use App\Entities\Services\UserService;
-use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use App\Common\Untils\Permission;
 use App\Common\Gamota\RequestApi;
@@ -23,15 +14,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends AbstractController
 {
-    use ThrottlesLogins;
+//    use ThrottlesLogins;
 
-    protected $userService;
-
-    public function __construct(UserRepository $userService)
+    public function __construct(UserRepository $userRepository)
     {
-        parent::__construct();
+        parent::__construct($userRepository);
         $this->middleware(Regular::PREFIX_GUEST, ['except' => 'logout']);
-        $this->userService = $userService;
     }
 
     public function index()
@@ -50,7 +38,7 @@ class LoginController extends AbstractController
         $res = RequestApi::create($endPoint, $apiParams, 'POST');
         $data = json_decode($res, true);
         if ($data['error_code'] == 0) {
-            $user = $this->userService->get()->where('appota_id', $data['data']['info']['user_id'])->first();
+            $user = $this->repository->get()->where('appota_id', $data['data']['info']['user_id'])->first();
             auth()->guard(Regular::PREFIX_CMS)->loginUsingId($user->id, true);
             return redirect()->intended('cms/dash');
         } else {
@@ -64,7 +52,6 @@ class LoginController extends AbstractController
     {
         $config = base_path() . '/config/google-oauth.json';
         $client = new Google($config);
-
         if (session()->has("access_token")) {
             $client->setAccessToken(session()->get("access_token"));
             $oauthInfo = $client->Oauth2();
