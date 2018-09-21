@@ -4,10 +4,10 @@ namespace Modules\Api\Http\Controllers\Auth;
 
 use Modules\Api\Http\Controllers\ApiController;
 use App\Common\Untils\AppotaAPI;
-use App\Entities\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Common\Gamota\RequestApi;
+use Modules\Cms\Repositories\Contracts\UserRepository;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,10 +15,9 @@ use Hash;
 
 class LoginController extends ApiController
 {
-    private $_modelUser;
     protected $userService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserRepository $userService)
     {
         parent::__construct();
         $this->userService = $userService;
@@ -50,7 +49,7 @@ class LoginController extends ApiController
         $accessToken = $dats['access_token'];
 
         $userInfo = $this->getUserInfoAppota($accessToken, null);
-        $user = $this->userService->get()->where('email', $request->email)->first();
+        $user = $this->userService->all()->where('email', $request->email)->first();
 
         if(empty($userInfo) || empty($user)){
             return $this->respondWithError(106);
@@ -59,7 +58,6 @@ class LoginController extends ApiController
         if ($this->checkKeySign($request)) {
             return $this->respondWithError(105);
         }
-
         return $this->respondData('Success', 0, ['info' => $dats]);
     }
 
@@ -171,7 +169,7 @@ class LoginController extends ApiController
                     'created_at' => time(),
                     'updated_at' => time(),
                 ];
-                if ($this->userService->store($newUser)) {
+                if ($this->userService->create($newUser)) {
                     $this->createAccessToken($data);
                 }
             }
@@ -211,7 +209,7 @@ class LoginController extends ApiController
         if (!$appotaId) {
             return false;
         } else {
-            return $this->userService->get()->where('appota_id', $appotaId)->first();
+            return $this->userService->all()->where('appota_id', $appotaId)->first();
         }
     }
 

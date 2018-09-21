@@ -12,11 +12,15 @@ namespace App\Common\Untils;
 class AppotaAPI
 {
     /*
-     * Login
+     * NORMAL_ACCESS_TOKEN same API_KEY
      */
+
     const NORMAL_ACCESS_TOKEN = '8df5229af85e2bf2c9d345f204535d3f052ae7523';
 
+    const SECRET_KEY = 'Ja20w1eFR0jM3OAqOBrbpaxUunSN7ESE';
+
     const FACEBOOK_API_KEY = 'K-A179883-U00000-BXQJVG-23753BBFDC1A61E2';
+
 
     public static function login()
     {

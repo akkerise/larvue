@@ -18,11 +18,11 @@ class CmsController extends AbstractController
 
     public function index()
     {
-        if (auth()->guest()) {
+//        if (auth()->guest()) {
             return redirect()->route('cms.g.login');
-        } else {
-            return redirect()->route('cms.dash');
-        }
+//        } else {
+//            return redirect()->route('cms.dash');
+//        }
     }
 
 }

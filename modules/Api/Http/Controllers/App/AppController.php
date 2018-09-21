@@ -38,7 +38,6 @@ class AppController extends ApiController
     public function app(Request $request)
     {
 
-
         if (empty(auth()->guard(Regular::PREFIX_CMS)->user()) && empty($request->all())) {
             return $this->respondWithError(108);
         } else {

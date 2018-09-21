@@ -30,7 +30,7 @@ class CreateMaanDatabase extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('fullname');
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->tinyInteger('gender');

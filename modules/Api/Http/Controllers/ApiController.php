@@ -2,6 +2,7 @@
 
 namespace Modules\Api\Http\Controllers;
 
+use App\Common\Untils\AppotaAPI;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Http\Response as Res;
 use Illuminate\Routing\Controller;
@@ -23,7 +24,7 @@ abstract class ApiController extends Controller
         404 => 'Có lỗi xảy ra'
     );
 
-    protected $secretKey = 'Ja20w1eFR0jM3OAqOBrbpaxUunSN7ESE';
+    protected $secretKey = AppotaAPI::SECRET_KEY;
 
     protected $statusCode = Res::HTTP_OK;
 
@@ -71,7 +72,7 @@ abstract class ApiController extends Controller
             }
         }
 
-        $sign = sha1($string_sign . '|' . $this->secretKey);
+        $sign = sha1($string_sign . '|' . AppotaAPI::SECRET_KEY);
         if ($sign != $request->sign) {
             return $this->respondWithError(105);
         }
